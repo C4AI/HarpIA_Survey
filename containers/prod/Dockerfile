@@ -12,8 +12,10 @@ RUN docker-php-ext-install gd intl mysqli simplexml soap zip
 RUN git clone -b MOODLE_405_STABLE --depth 1 --verbose https://github.com/moodle/moodle.git /var/www/html/moodle
 
 # obtain HarpIA Survey plugins
+ADD https://api.github.com/repos/C4AI/moodle-datafield_harpiainteraction/git/refs/heads/main /harpia/moodle-datafield_harpiainteraction-head.json
 RUN git clone -b main --single-branch --depth 1 --verbose https://github.com/C4AI/moodle-datafield_harpiainteraction.git /var/www/html/moodle/mod/data/field/harpiainteraction
 RUN cp /var/www/html/moodle/mod/data/field/harpiainteraction/pix/harpiainteraction.svg /var/www/html/moodle/mod/data/pix/field/harpiainteraction.svg
+ADD https://api.github.com/repos/C4AI/moodle-local_harpiaajax/git/refs/heads/main /harpia/moodle-local_harpiaajax-head.json
 RUN git clone -b main --single-branch --depth 1 --verbose https://github.com/C4AI/moodle-local_harpiaajax.git /var/www/html/moodle/local/harpiaajax
 
 # copy HarpIA setup files
