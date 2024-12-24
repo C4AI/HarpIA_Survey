@@ -121,6 +121,14 @@ $ret = proc_close($process);
 if ($ret !== 0)
     exit(1);
 
+echo "\n\n====== OVERRIDING TRANSLATIONS ======\n\n\n";
+$languages = ["pt_br", "en"];
+foreach ($languages as $lang) {
+    $process = proc_open(["cp", "-r", "/harpia/custom_translations/{$lang}_local", "/harpia/data/moodledata/lang/"], [], $pipes);
+    $ret = proc_close($process);
+    if ($ret !== 0)
+        exit(1);
+}
 
 echo "\n\n====== CHANGING DEFAULT VALUES ======\n\n\n";
 $sql_lines = [

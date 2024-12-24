@@ -21,6 +21,7 @@ RUN git clone -b main --single-branch --depth 1 --verbose https://github.com/C4A
 # copy HarpIA setup files
 COPY src/setup/ /harpia/src/
 COPY src/defaults.php /var/www/html/moodle/local/defaults.php
+COPY src/custom_translations /harpia/custom_translations
 
 # copy HarpIA Survey translation files
 COPY src/plugin_translations/moodle-datafield_harpiainteraction/pt_br /var/www/html/moodle/mod/data/field/harpiainteraction/lang/pt_br
