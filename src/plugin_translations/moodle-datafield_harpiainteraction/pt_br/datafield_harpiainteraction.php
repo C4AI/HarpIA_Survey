@@ -28,7 +28,9 @@ $string['contexts'] = 'Contextos:';
 $string['providername'] = 'Fornecedor de respostas';
 $string['usersender'] = 'Usuário';
 $string['botsender'] = 'Modelo';
-$string['allowcontinue'] = 'Permitir conversa sequencial';
+$string['experimenttype'] = 'Tipo de experimento';
+$string['experimenttype_single'] = 'Interação única';
+$string['experimenttype_chat'] = 'Interação por chat';
 $string['systemprompt'] = 'Prompt de sistema';
 
 $string['privacy:metadata'] = 'O componente de campo HarpIA não armazena nenhum dado pessoal; ele usa tabelas definidas em mod_data.';
