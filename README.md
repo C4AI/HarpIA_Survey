@@ -47,7 +47,7 @@ docker build -t harpia-survey:1.0 -f containers/prod/Dockerfile .
    docker run --rm -it --name harpia-survey -v '<DATADIR>':/harpia/data harpia-survey:1.0 php /harpia/src/harpia_setup.php --admin-user='harpia_admin' --www-root='<ADDRESS>'
    ```
 
-   You will be asked to type the password of the first account that will
+   When prompted, type the password of the first account that will
    be created (the administrator), whose username is `harpia_admin` as defined
    in the command above.
    Then, the initial Moodle set up will be executed, and it may take several minutes.
@@ -57,12 +57,27 @@ docker build -t harpia-survey:1.0 -f containers/prod/Dockerfile .
    **replace `<DATADIR>` with the directory defined in step 3**):
 
    ```shell
-   docker run --rm -it --name harpia-survey  -p '<PORT>':80 -v '<DATADIR>':/harpia/data -v '<DATADIR>'/config.php:/var/www/html/moodle/config.php harpia-survey:1.0
+   docker run --rm -it --name harpia-survey  -p '<PORT>':80 -v '<DATADIR>':/harpia/data -v '<DATADIR>'/config.php:/var/www/html/moodle/config.php --add-host=harpia-model-gateway:host-gateway harpia-survey:1.0
    ```
 
+   Note: the argument `--add-host=harpia-model-gateway:host-gateway` makes the host's
+   `localhost` available as `harpia-model-gateway`.
+
 7. Open in your web browser the address defined in step 4.
+
    - Log in using the credentials chosen in step 5.
-   - Fill in the form to complete the creation of the administrator's account and click **Update profile**.
+   - Fill in the form to complete the creation of the administrator's account and
+     click **Update profile**.
+
+8. Make sure the [HarpIA Model Gateway container](../../../moodle-local_harpiaajax)
+   is running.
+
+9. Go to _Site administration_ > _Plugins_ > _Local plugins_ > _HarpIA AJAX_,
+   and fill in the address of the HarpIA Model Gateway server
+   (if the name in step 6 was kept and the default port was used for the gateway,
+   the address is `http://harpia-model-gateway:42774`).
+
+10. Create user accounts, courses and activities. (TO DO: add detailed steps)
 
 #### Updating
 
@@ -70,4 +85,4 @@ Stop the container and run the steps 2 and 6 above.
 
 ## Installation — for production and test environments
 
-<!-- TODO -->
+(TO DO)
