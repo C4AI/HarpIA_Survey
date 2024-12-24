@@ -69,7 +69,7 @@ docker build -t harpia-survey:1.0 -f containers/prod/Dockerfile .
    - Fill in the form to complete the creation of the administrator's account and
      click **Update profile**.
 
-8. Make sure the [HarpIA Model Gateway container](../../../moodle-local_harpiaajax)
+8. Make sure the [HarpIA Model Gateway container](../../../HarpIA_Model_Gateway)
    is running.
 
 9. Go to _Site administration_ > _Plugins_ > _Local plugins_ > _HarpIA AJAX_,
