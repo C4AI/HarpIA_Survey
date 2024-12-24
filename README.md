@@ -63,3 +63,11 @@ docker build -t harpia-survey:1.0 -f containers/prod/Dockerfile .
 7. Open in your web browser the address defined in step 4.
    - Log in using the credentials chosen in step 5.
    - Fill in the form to complete the creation of the administrator's account and click **Update profile**.
+
+#### Updating
+
+Stop the container and run the steps 2 and 6 above.
+
+## Installation — for production and test environments
+
+<!-- TODO -->
