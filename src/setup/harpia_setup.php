@@ -120,7 +120,14 @@ if ($ret !== 0)
 
 echo "\n\n====== INSTALLING LANGUAGE PACKS ======\n\n\n";
 $languages = ["pt_br"];
-$process = proc_open(array_merge(["bash", "/harpia/src/install_lang.sh"], $languages), [], $pipes);
+$orig_script = "/harpia/src/install_lang.sh";
+$fixed_script = "/tmp/install_lang.sh";
+# Remove \r, which Git for Windows inserts automatically and Bash does not support
+file_put_contents(
+    $fixed_script,
+    str_replace("\r\n", "\n", file_get_contents($orig_script))
+);
+$process = proc_open(array_merge(["bash", $fixed_script], $languages), [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();
