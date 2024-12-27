@@ -25,6 +25,16 @@ function exit_with_error()
     exit(1);
 }
 
+$harpia_data = "/harpia/data/";
+$target_config_php_path = "$harpia_data/config.php";
+
+if (is_dir($target_config_php_path)) {
+    echo "ERROR: There is a spurious 'config.php' subdirectory in your data directory.\n";
+    echo "Please delete it and try again.\n";
+    exit_with_error();
+}
+
+
 # Read options from command-line
 $options = getopt("", ["admin-user:", "admin-pass:", "www-root:"]);
 
@@ -82,14 +92,14 @@ foreach ($sql_lines as $sql) {
 }
 
 echo "\n\n====== APPLYING PERMISSIONS BEFORE INSTALLATION ======\n\n";
-$process = proc_open(["chown", "-v", "www-data", "/var/www/html/moodle", "/harpia/data"], [], $pipes);
+$process = proc_open(["chown", "-v", "www-data", "/var/www/html/moodle", $harpia_data], [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();
 
 
 echo "\n\n====== INSTALLING MOODLE ======\n\n";
-$moodledata = "/harpia/data/moodledata";
+$moodledata = "$harpia_data/moodledata";
 $process = proc_open(
     [
         "sudo",
@@ -135,7 +145,7 @@ if ($ret !== 0)
 echo "\n\n====== OVERRIDING TRANSLATIONS ======\n\n\n";
 $languages = ["pt_br", "en"];
 foreach ($languages as $lang) {
-    $process = proc_open(["cp", "-r", "/harpia/custom_translations/{$lang}_local", "/harpia/data/moodledata/lang/"], [], $pipes);
+    $process = proc_open(["cp", "-r", "/harpia/custom_translations/{$lang}_local", "$moodledata/lang/"], [], $pipes);
     $ret = proc_close($process);
     if ($ret !== 0)
         exit_with_error();
@@ -154,19 +164,20 @@ foreach ($sql_lines as $sql) {
 
 
 echo "\n\n====== APPLYING PERMISSIONS AFTER INSTALLATION ======\n\n";
+$config_php_path = "/var/www/html/moodle/config.php";
 
-$process = proc_open(["chmod", "-v", "+r", "/var/www/html/moodle/config.php"], [], $pipes);
+$process = proc_open(["chmod", "-v", "+r", $config_php_path], [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();
 
-$process = proc_open(["chown", "-v", "root", "/var/www/html/moodle/config.php"], [], $pipes);
+$process = proc_open(["chown", "-v", "root", $config_php_path], [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();
 
 echo "\n\n====== COPYING CONFIGURATION ======\n\n";
-$process = proc_open(["mv", "-v", "/var/www/html/moodle/config.php", "/harpia/data/config.php"], [], $pipes);
+$process = proc_open(["mv", "-v", $config_php_path, $target_config_php_path], [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();
