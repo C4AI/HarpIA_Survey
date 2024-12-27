@@ -120,7 +120,7 @@ if ($ret !== 0)
 
 echo "\n\n====== INSTALLING LANGUAGE PACKS ======\n\n\n";
 $languages = ["pt_br"];
-$process = proc_open(array_merge(["/harpia/src/install_lang.sh"], $languages), [], $pipes);
+$process = proc_open(array_merge(["bash", "/harpia/src/install_lang.sh"], $languages), [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();

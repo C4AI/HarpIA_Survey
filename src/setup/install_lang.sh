@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 for lang in "$@"
 do
     echo -e "\n[Installing language pack for Moodle: ${lang}]"
