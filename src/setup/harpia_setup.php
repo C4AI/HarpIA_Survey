@@ -26,7 +26,9 @@ function exit_with_error()
 }
 
 $harpia_data = "/harpia/data/";
+$moodle_data = "$harpia_data/moodledata";
 $target_config_php_path = "$harpia_data/config.php";
+$moodle_repo_path = getenv('MOODLEREPOPATH');
 
 if (is_dir($target_config_php_path)) {
     echo "ERROR: There is a spurious 'config.php' subdirectory in your data directory.\n";
@@ -92,21 +94,21 @@ foreach ($sql_lines as $sql) {
 }
 
 echo "\n\n====== APPLYING PERMISSIONS BEFORE INSTALLATION ======\n\n";
-$process = proc_open(["chown", "-v", "www-data", "/var/www/html/moodle", $harpia_data], [], $pipes);
+$process = proc_open(["chown", "-v", "www-data", $moodle_repo_path, $harpia_data], [], $pipes);
 $ret = proc_close($process);
 if ($ret !== 0)
     exit_with_error();
 
 
 echo "\n\n====== INSTALLING MOODLE ======\n\n";
-$moodledata = "$harpia_data/moodledata";
+
 $process = proc_open(
     [
         "sudo",
         "-u",
         "www-data",
         PHP_BINARY,
-        '/var/www/html/moodle/admin/cli/install.php',
+        "$moodle_repo_path/admin/cli/install.php",
         '--non-interactive',
         '--agree-license',
         '--allow-unstable',
@@ -119,7 +121,7 @@ $process = proc_open(
         "--wwwroot=$www_root",
         "--adminuser=$admin_user",
         "--adminpass=$admin_pass",
-        "--dataroot=$moodledata",
+        "--dataroot=$moodle_data",
     ],
     [],
     $pipes
@@ -145,7 +147,7 @@ if ($ret !== 0)
 echo "\n\n====== OVERRIDING TRANSLATIONS ======\n\n\n";
 $languages = ["pt_br", "en"];
 foreach ($languages as $lang) {
-    $process = proc_open(["cp", "-r", "/harpia/custom_translations/{$lang}_local", "$moodledata/lang/"], [], $pipes);
+    $process = proc_open(["cp", "-r", "/harpia/custom_translations/{$lang}_local", "$moodle_data/lang/"], [], $pipes);
     $ret = proc_close($process);
     if ($ret !== 0)
         exit_with_error();
@@ -164,7 +166,7 @@ foreach ($sql_lines as $sql) {
 
 
 echo "\n\n====== APPLYING PERMISSIONS AFTER INSTALLATION ======\n\n";
-$config_php_path = "/var/www/html/moodle/config.php";
+$config_php_path = "$moodle_repo_path/config.php";
 
 $process = proc_open(["chmod", "-v", "+r", $config_php_path], [], $pipes);
 $ret = proc_close($process);
