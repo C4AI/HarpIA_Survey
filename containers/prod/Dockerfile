@@ -34,6 +34,13 @@ RUN echo '[mysqld]\ndatadir=/harpia/data/db' > /etc/mysql/conf.d/harpia.cnf
 # change working directory
 WORKDIR /var/www
 
+# define user to prevent permission errors
+ARG UNAME=www-data
+ARG UGROUP=www-data
+ARG UID=1000
+ARG GID=1001
+RUN usermod --uid $UID $UNAME
+RUN groupmod --gid $GID $UGROUP
 
 # change default command
 SHELL ["/bin/bash", "-c"]
