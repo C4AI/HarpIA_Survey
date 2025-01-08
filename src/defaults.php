@@ -4,11 +4,18 @@ $defaults["numsections"] = 0;
 $defaults["moodlecourse"]["numsections"] = 0;
 $defaults["moodlecourse"]["newsitems"] = 0;
 $defaults["moodle"]["frontpageloggedin"] = "5";
+$defaults["moodle"]["defaulthomepage"] = 3;
 $defaults["moodle"]["frontpage"] = "";
 $defaults["moodle"]["block_course_list_hideallcourseslink"] = "1";
 
 $defaults["moodle"]["additionalhtmlhead"] = <<<'ENDSTYLE'
 <style>
+
+    /* Hide "Home" button at the top navigation bar */
+    .primary-navigation li[data-key="home"] {
+        display: none;
+    }
+
     /* Hide "My courses" button at the top navigation bar */
     .primary-navigation li[data-key="mycourses"] {
         display: none;
