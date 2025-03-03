@@ -147,10 +147,15 @@ if ($ret !== 0)
 echo "\n\n====== OVERRIDING TRANSLATIONS ======\n\n\n";
 $languages = ["pt_br", "en"];
 foreach ($languages as $lang) {
-    $process = proc_open(["cp", "-r", "/harpia/custom_translations/{$lang}_local", "$moodle_data/lang/"], [], $pipes);
-    $ret = proc_close($process);
-    if ($ret !== 0)
-        exit_with_error();
+    $source = "/harpia/custom_translations/{$lang}_local";
+    if (is_dir($source)) {
+        $process = proc_open(["cp", "-r", $source, "$moodle_data/lang/"], [], $pipes);
+        $ret = proc_close($process);
+        if ($ret !== 0)
+            exit_with_error();
+    } else {
+        echo "\n\n====== TRANSLATION OVERRIDES NOT FOUND ======\n\n\n";
+    }
 }
 
 echo "\n\n====== CHANGING DEFAULT VALUES ======\n\n\n";
