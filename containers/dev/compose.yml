@@ -1,0 +1,76 @@
+services:
+
+  harpia_moodle_setup:
+    profiles: [ 'setup' ]
+    image: harpia-survey-dev:1.0
+    container_name: harpia-survey-dev
+    build: .
+    volumes:
+      - type: bind
+        source: ${HARPIA_DATA_DIR}/
+        target: /harpia/data
+      - type: bind
+        source: ../../src/setup
+        target: /harpia/src
+      - type: bind
+        source: ../../src/defaults.php
+        target: /var/www/html/moodle/local/defaults.php
+      - type: bind
+        source: ../../src/custom_translations
+        target: /harpia/custom_translations
+
+    command: php /harpia/src/harpia_setup.php --admin-user='${HARPIA_ADMIN_USER:-harpia_admin}' --www-root='${HARPIA_MOODLE_ADDRESS}'
+    stdin_open: true
+    tty: true
+
+  harpia_moodle:
+    image: harpia-survey-dev:1.0
+    container_name: harpia-survey-dev
+    build: .
+    ports:
+      - "$HARPIA_MOODLE_PORT:80"
+    extra_hosts:
+      - "harpia-model-gateway:host-gateway"
+    network_mode: bridge
+    volumes:
+
+      # Moodle configuration file:
+      - type: bind
+        source: ${HARPIA_DATA_DIR}/config.php
+        target: /var/www/html/config.php
+        read_only: true
+
+      # Moodle data directory:
+      - type: bind
+        source: ${HARPIA_DATA_DIR}/
+        target: /harpia/data
+
+      # Custom default settings:
+      - type: bind
+        source: ../../src/defaults.php
+        target: /var/www/html/local/defaults.php
+
+      # HarpIA Interaction (plugin code):
+      - type: bind
+        source: ../../src/plugins/moodle-datafield_harpiainteraction
+        target: /var/www/html/mod/data/field/harpiainteraction
+
+      # HarpIA Interaction (pt-BR translation):
+      - type: bind
+        source: ../../src/plugin_translations/moodle-datafield_harpiainteraction/pt_br
+        target: /var/www/html/mod/data/field/harpiainteraction/lang/pt_br
+
+      # HarpIA Interaction (icon):
+      - type: bind
+        source: ../../src/plugins/moodle-datafield_harpiainteraction/pix/harpiainteraction.svg
+        target: /var/www/html/mod/data/pix/field/harpiainteraction.svg
+
+      # HarpIA Ajax (plugin code):
+      - type: bind
+        source: ../../src/plugins/moodle-local_harpiaajax
+        target: /var/www/html/local/harpiaajax
+
+      # HarpIA Ajax (pt-BR translation):
+      - type: bind
+        source: ../../src/plugin_translations/moodle-local_harpiaajax/pt_br
+        target: /var/www/html/local/harpiaajax/lang/pt_br
