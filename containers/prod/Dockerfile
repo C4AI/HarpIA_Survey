@@ -13,7 +13,6 @@ RUN docker-php-ext-install gd intl mysqli simplexml soap zip
 ARG ADDRESSPATH=/
 ENV MOODLEREPOPATH=/var/www/html/${ADDRESSPATH}
 RUN mkdir -p "${MOODLEREPOPATH}"
-RUN echo "${MOODLEREPOPATH}"
 RUN git clone -b MOODLE_405_STABLE --depth 1 --verbose https://github.com/moodle/moodle.git "${MOODLEREPOPATH}"
 
 # obtain HarpIA Survey plugins
