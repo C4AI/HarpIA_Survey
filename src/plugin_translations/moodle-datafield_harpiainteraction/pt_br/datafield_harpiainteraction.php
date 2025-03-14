@@ -32,5 +32,6 @@ $string['experimenttype'] = 'Tipo de experimento';
 $string['experimenttype_single'] = 'Interação única';
 $string['experimenttype_chat'] = 'Interação por chat';
 $string['systemprompt'] = 'Prompt de sistema';
+$string['cantfetchproviders'] = 'Falha ao recuperar a lista de fornecedores de respostas. Um administrador precisa verificar as configurações do HarpIA Ajax.';
 
 $string['privacy:metadata'] = 'O componente de campo HarpIA não armazena nenhum dado pessoal; ele usa tabelas definidas em mod_data.';

@@ -25,4 +25,4 @@
 $string['pluginname'] = 'HarpIA AJAX';
 
 $string['answer_provider_address'] = "Endereço do fornecedor de respostas";
-$string['answer_provider_address_desc'] = "Endereço do fornecedor de respostas, por exemplo: \"http://localhost.localdomain:42774/\"";
+$string['answer_provider_address_desc'] = "Endereço do fornecedor de respostas, por exemplo: \"http://localhost:42774/\"";
