@@ -27,3 +27,12 @@ Following Moodle's license,
 HarpIA Survey is provided freely as open source software,
 under version 3 of the GNU General Public License.
 
+## Copyright
+
+The copyright of the described software is jointly-owned by
+the University of São Paulo and the IBM Corporation,
+and the University of São Paulo acknowledges that
+the IBM Corporation has a nonexclusive, irrevocable, worldwide,
+royalty-free and fully-paid-up Commercial license
+to use, test, execute, perform, display, evaluate, distribute,
+prepare derivatives of, and commercialize the software.
